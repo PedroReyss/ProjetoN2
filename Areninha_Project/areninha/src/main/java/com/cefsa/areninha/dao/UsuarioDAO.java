@@ -144,6 +144,58 @@ public class UsuarioDAO {
     
     jdbcTemplate.update(sql, usuarioId);
 }
+public boolean atualizarUsuario(Usuario usuario) {
+    try {
+        String sql = "UPDATE usuarios SET username = ?, password = ?, nome = ?, email = ? WHERE id = ?";
+        int rows = jdbcTemplate.update(sql, 
+            usuario.getUsername(), 
+            usuario.getPassword(), 
+            usuario.getNome(), 
+            usuario.getEmail(),
+            usuario.getId());
+        return rows > 0;
+    } catch (DataAccessException e) {
+        System.err.println("❌ Erro ao atualizar usuário: " + e.getMessage());
+        return false;
+    }
+}
+
+public boolean excluirUsuario(int usuarioId) {
+    try {
+        // Primeiro exclua as partidas do usuário
+        String sqlPartidas = "DELETE FROM partidas WHERE usuario_id = ?";
+        jdbcTemplate.update(sqlPartidas, usuarioId);
+        
+        // Depois exclua o usuário
+        String sqlUsuario = "DELETE FROM usuarios WHERE id = ?";
+        int rows = jdbcTemplate.update(sqlUsuario, usuarioId);
+        return rows > 0;
+    } catch (DataAccessException e) {
+        System.err.println("❌ Erro ao excluir usuário: " + e.getMessage());
+        return false;
+    }
+}
+
+public Usuario buscarPorId(int usuarioId) {
+    try {
+        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        List<Usuario> usuarios = jdbcTemplate.query(sql, new UsuarioRowMapper(), usuarioId);
+        return usuarios.isEmpty() ? null : usuarios.get(0);
+    } catch (DataAccessException e) {
+        System.err.println("❌ Erro ao buscar usuário por ID: " + e.getMessage());
+        return null;
+    }
+}
+
+public List<Usuario> listarTodos() {
+    try {
+        String sql = "SELECT * FROM usuarios ORDER BY username";
+        return jdbcTemplate.query(sql, new UsuarioRowMapper());
+    } catch (DataAccessException e) {
+        System.err.println("❌ Erro ao listar usuários: " + e.getMessage());
+        return List.of();
+    }
+}
 
 public void resetarStreak(int usuarioId) {
     String sql = "UPDATE usuarios SET current_streak = 0, recompensa_disponivel = FALSE WHERE id = ?";
@@ -155,6 +207,6 @@ public void marcarRecompensaUtilizada(int usuarioId) {
     jdbcTemplate.update(sql, usuarioId);
 }
 
-// Adicione este método para buscar por username
+
 
 }
