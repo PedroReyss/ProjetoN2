@@ -14,7 +14,7 @@ Vinicius Yamaguti Augusto - 081220040
 ---
 
 ## 📚 Documentação
-- [Projeto de Software (PDF)](./Areninha-doc.pdf)
+- [Projeto de Software (PDF)](./Doc-Areninha.pdf)
 - [Diagrama UML (UML)](./UML.png)
 
 ## 🕹️ Jogos Disponíveis
