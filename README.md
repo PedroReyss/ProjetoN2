@@ -93,7 +93,11 @@ src/main/java/com/cefsa/areninha/
 │   ├── UsuarioController.java
 │   └── ErrosController.java
 ├── model/
+|     └── Usuario.java
+|     └── Partida.java
 ├── dao/
+|    └── UsuarioDAO.java
+|    └── PartidaDAO.java
 └── resources/
     ├── templates/
     └── static/
